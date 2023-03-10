@@ -3,6 +3,7 @@ const cors = require("cors");
 const socket = require("socket.io");
 const http = require("http");
 const gameRouter = require("./routes/gameRoutes");
+const userRouter = require("./routes/userRoutes");
 
 require("./db/config");
 
@@ -11,18 +12,19 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/v1", gameRouter);
+app.use("/api/v1", userRouter);
 
 const server = http.createServer(app);
 let users = [];
 
-// const addNewuser = (gameId, socketId) => {
-//   !users.some((user) => user.gameId === gameId) &&
-//     users.push({ gameId, socketId });
-// };
+const addNewuser = (userId, socketId) => {
+  !users.some((user) => user.userId === userId) &&
+    users.push({ userId, socketId });
+};
 
-// const getUser = (receiverId) => {
-//   return users.find((ele) => ele.userId === receiverId);
-// };
+const getUser = (receiverId) => {
+  return users.find((ele) => ele.userId === receiverId);
+};
 
 const io = socket(server, {
   cors: {
@@ -33,42 +35,23 @@ const io = socket(server, {
 
 io.on("connection", (socket) => {
   console.log("a user is connected to backend socket server");
-  users.push(socket.id);
 
-  io.to(socket.id).emit("players", {
-    currentUser: socket.id,
-    users,
+  socket.on("addUser", (userId) => {
+    addNewuser(userId, socket.id);
+    io.emit("getAllUsers", users);
   });
 
-  socket.on("sendHistory", ({ senderId, currentMove, gamehistory, roomid }) => {
-    const receiverId = users.filter((ele) => ele !== senderId);
-    io.to(receiverId[0]).emit("history", {
-      currentMove,
-      history: gamehistory,
-      roomid,
-    });
-  });
-  // socket.on("sendHistory", ({ userId }) => {
-  //   addNewuser(userId, socket.id);
-
-  //   console.log(users);
-  //   io.emit("getAllUsers", users);
-
-  //   socket.on("disconnect", () => {
-  //     console.log("a user is disconnected");
-  //     // removeUser(socket.id);
-  //   });
-
-  //   socket.on("history", ({ currentMove, gamehistory, roomid }) => {
-  //     const user = getUser(receiverId);
-  //     console.log(text);
-  //     io.to(user.socketId).emit("getmessages", {
-  //       currentMove,
-  //       history: gamehistory,
-  //       roomid,
-  //     });
-  //   });
-  // });
+  socket.on(
+    "sendHistory",
+    ({ receiverId, currentMove, gamehistory, roomid }) => {
+      const user = getUser(receiverId);
+      io.to(user.socketId).emit("history", {
+        currentMove,
+        history: gamehistory,
+        roomid,
+      });
+    }
+  );
 });
 
 server.listen(8000, () => {

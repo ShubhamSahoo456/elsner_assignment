@@ -17,7 +17,7 @@ function Board({ xIsNext, squares, onPlay, roomId }) {
     if (calculateWinner(squares) || squares[i]) {
       return;
     }
-    const nextSquares = squares.slice();
+    const nextSquares = squares;
     if (xIsNext) {
       nextSquares[i] = "X";
     } else {
@@ -65,7 +65,7 @@ export default function Game() {
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
   const socket = useRef();
-  const [socketusers, setSocketUsers] = useState([]);
+  const [socketusers, setSocketUsers] = useState({});
 
   const getRoomDetails = async () => {
     try {
@@ -79,50 +79,21 @@ export default function Game() {
   };
 
   useEffect(() => {
+    const userInfo = JSON.parse(localStorage.getItem("social"));
     socket.current = Socket;
-    socket.current.emit("sendHistory", {
-      userId: Date.now(),
-    });
+    socket.current.emit("addUser", userInfo._id);
     socket.current.on("getAllUsers", (data) => {
-      console.log(data);
       setSocketUsers(data);
+    });
+    socket.current.on("history", (data) => {
+      setHistory(data.history);
+      setCurrentMove(data.currentMove);
     });
   }, []);
 
   useEffect(() => {
     getRoomDetails();
   }, []);
-
-  const updateGamePlay = async () => {
-    try {
-      const { data } = await axios.patch(
-        `http://localhost:8000/api/v1/gameplay/${params.id}`,
-        {
-          currentMove: currentMove,
-          gamehistory: history,
-        }
-      );
-      //   socket.current.emit(
-      //     "history",
-      //     {
-      //       currentMove,
-      //       gamehistory: history,
-      //       roomid: params.id,
-      //     },
-      //     (message) => {
-      //       alert(message);
-      //     }
-      //   );
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  //   useEffect(() => {
-  //     if (currentMove) {
-  //       updateGamePlay();
-  //     }
-  //   }, [currentMove, history]);
 
   async function handlePlay(nextSquares) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
@@ -135,6 +106,16 @@ export default function Game() {
         gamehistory: nextHistory,
       }
     );
+    const userInfo = JSON.parse(localStorage.getItem("social"));
+    const receiverId = socketusers.filter(
+      (user) => user.userId !== userInfo._id
+    );
+    socket.current.emit("sendHistory", {
+      receiverId: receiverId[0].userId,
+      currentMove: nextHistory.length - 1,
+      gamehistory: nextHistory,
+      roomid: params.id,
+    });
   }
 
   return (

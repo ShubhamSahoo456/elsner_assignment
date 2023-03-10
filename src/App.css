@@ -33,3 +33,198 @@
   background-color: aquamarine;
   color:black
 }
+
+.login_container{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.register_wrapper{
+  width:80%;
+  height:70%;
+  display: flex;
+  flex-direction: row;
+}
+.login_left{
+  flex: 2;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login_right{
+  flex: 1.5;
+  -webkit-box-shadow: 2px 6px 9px 0px rgba(0,0,0,0.09); 
+  box-shadow: 3px 6px 9px 3px rgba(0,0,0,0.09);
+  display: flex;
+  flex-direction: column;
+  height: 450px;
+}
+
+.text_ h1{
+  font-size: 40px;
+  color: #24a0ed;
+}
+
+.text_ p{
+  font-size: 15px;
+  margin-top: 10px;
+}
+
+.login_right form {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+}
+
+.login_input{
+  margin-top: 20px;
+  height: 35px;
+  padding: 5px 10px;
+}
+
+.btn_login{
+  background-color:#24a0ed ;
+  color: #fff;
+  font-size: 15px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.login_right form input{
+  border: 1px solid gray;
+  border-radius: 5px;
+}
+
+.login_right form input:focus{
+  outline: none;
+}
+
+.forgon_password{
+  text-align: center;
+  font-size: 15px;
+  margin: 5px 0 15px 0px;
+
+}
+
+.create_account{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.create_account button{
+  width: 55%;
+  height: 40px;
+  margin-top: 20px;
+  background-color: green;
+  color: #fff;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login_container{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login_wrapper{
+  width:80%;
+  height:50%;
+  display: flex;
+  flex-direction: row;
+}
+.login_left{
+  flex: 2;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login_right{
+  flex: 1.5;
+  -webkit-box-shadow: 2px 6px 9px 0px rgba(0,0,0,0.09); 
+  box-shadow: 3px 6px 9px 3px rgba(0,0,0,0.09);
+  display: flex;
+  flex-direction: column;
+}
+
+.text_ h1{
+  font-size: 40px;
+  color: #24a0ed;
+}
+
+.text_ p{
+  font-size: 15px;
+  margin-top: 10px;
+}
+
+.login_right form {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+}
+
+.login_input{
+  margin-top: 20px;
+  height: 35px;
+  padding: 5px 10px;
+}
+
+.btn_login{
+  background-color:#24a0ed ;
+  color: #fff;
+  font-size: 15px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.login_right form input{
+  border: 1px solid gray;
+  border-radius: 5px;
+}
+
+.login_right form input:focus{
+  outline: none;
+}
+
+.forgon_password{
+  text-align: center;
+  font-size: 15px;
+  margin: 5px 0 15px 0px;
+
+}
+
+.create_account{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.create_account button{
+  width: 55%;
+  height: 40px;
+  margin-top: 20px;
+  background-color: green;
+  color: #fff;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
