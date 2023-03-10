@@ -84,6 +84,7 @@ export default function Game() {
     socket.current.emit("addUser", userInfo._id);
     socket.current.on("getAllUsers", (data) => {
       setSocketUsers(data);
+      console.log(data);
     });
     socket.current.on("disconnectUser", (data) => {
       setSocketUsers(data);
@@ -115,7 +116,7 @@ export default function Game() {
       (user) => user.userId !== userInfo._id
     );
     socket.current.emit("sendHistory", {
-      receiverId: receiverId[0].userId,
+      receiverId: receiverId[0].socketId,
       currentMove: nextHistory.length - 1,
       gamehistory: nextHistory,
       roomid: params.id,

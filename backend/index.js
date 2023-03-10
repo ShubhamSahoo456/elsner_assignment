@@ -49,13 +49,14 @@ io.on("connection", (socket) => {
     console.log("a user is disconnected");
     removeUser(socket.id);
     io.emit("disconnectUser", users);
+    io.emit("getAllUsers", users);
   });
 
   socket.on(
     "sendHistory",
     ({ receiverId, currentMove, gamehistory, roomid }) => {
-      const user = getUser(receiverId);
-      io.to(user.socketId).emit("history", {
+      // const user = getUser(receiverId);
+      io.to(receiverId).emit("history", {
         currentMove,
         history: gamehistory,
         roomid,
