@@ -85,6 +85,10 @@ export default function Game() {
     socket.current.on("getAllUsers", (data) => {
       setSocketUsers(data);
     });
+    socket.current.on("disconnectUser", (data) => {
+      setSocketUsers(data);
+      alert("user disconnected");
+    });
     socket.current.on("history", (data) => {
       setHistory(data.history);
       setCurrentMove(data.currentMove);

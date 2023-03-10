@@ -26,6 +26,10 @@ const getUser = (receiverId) => {
   return users.find((ele) => ele.userId === receiverId);
 };
 
+const removeUser = (socketId) => {
+  users.filter((user) => user.socketId !== socketId);
+};
+
 const io = socket(server, {
   cors: {
     origin: "http://localhost:3000",
@@ -39,6 +43,12 @@ io.on("connection", (socket) => {
   socket.on("addUser", (userId) => {
     addNewuser(userId, socket.id);
     io.emit("getAllUsers", users);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("a user is disconnected");
+    removeUser(socket.id);
+    io.emit("disconnectUser", users);
   });
 
   socket.on(
